@@ -1,0 +1,55 @@
+#!/usr/bin/python
+
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEBase import MIMEBase
+from email.MIMEText import MIMEText
+from email import Encoders
+import os
+
+gmail_user = "1474739840@qq.com"
+gmail_pwd = "admin1962"
+
+def mail(to, subject, text, attach):
+   msg = MIMEMultipart()
+
+   msg['From'] = gmail_user
+   msg['To'] = to
+   msg['Subject'] = subject
+
+   msg.attach(MIMEText(text))
+
+
+
+   for f in attach:
+       if os.path.isdir(f):
+           print f+" is a dir"
+           continue
+       with open(f,'r+') as f_attach:
+           part = MIMEBase('application', 'octet-stream')
+           part.set_payload(f_attach.read())
+           Encoders.encode_base64(part)
+           part.add_header('Content-Disposition',
+                            'attachment; filename=""%s"' %os.path.basename(f))
+           msg.attach(part)
+
+
+   # part.set_payload(open(attach, 'rb').read())
+   # Encoders.encode_base64(part)
+   # part.add_header('Content-Disposition',
+   #         'attachment; filename="%s"' % os.path.basename(attach))
+   # msg.attach(part)
+
+   mailServer = smtplib.SMTP("smtp.qq.com")
+
+   mailServer.login(gmail_user, gmail_pwd)
+   mailServer.sendmail(gmail_user, to, msg.as_string())
+   # Should be mailServer.quit(), but that crashes...
+   mailServer.close()
+
+#attach =('test.jpeg','test2.jpeg','test3.jpg','test4.jpg','test5.jpg')
+
+# mail("liuhongyuand@gmail.com",
+#    "Hello from python!",
+#    "This is a email sent with python",
+#    attach)
