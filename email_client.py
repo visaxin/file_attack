@@ -8,8 +8,8 @@ from email import Encoders
 import os
 
 gmail_user = "1474739840@qq.com"
-gmail_pwd = "******"
-
+#gmail_pwd = "******"
+gmail_pwd = "admin1962"
 def mail(to, subject, text, attach):
    msg = MIMEMultipart()
 
@@ -21,9 +21,6 @@ def mail(to, subject, text, attach):
 
 
    for f in attach:
-       if os.path.isdir(f):
-          # print f+" is a dir"
-           continue
     #open with 'rb' to read non-text file
        with open(f,'rb') as f_attach:
            part = MIMEBase('application', 'octet-stream')
