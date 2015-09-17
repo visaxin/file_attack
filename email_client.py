@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import smtplib
+import sys
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEBase import MIMEBase
 from email.MIMEText import MIMEText
@@ -29,11 +30,12 @@ def mail(to, subject, text, attach):
            part.add_header('Content-Disposition',
                             'attachment; filename=""%s"' %os.path.basename(f))
            msg.attach(part)
+   try:
 
-
-   mailServer = smtplib.SMTP("smtp.qq.com")
-
-   mailServer.login(gmail_user, gmail_pwd)
-   mailServer.sendmail(gmail_user, to, msg.as_string().encode('utf-8'))
+       mailServer = smtplib.SMTP("smtp.qq.com")
+       mailServer.login(gmail_user, gmail_pwd)
+       mailServer.sendmail(gmail_user, to, msg.as_string().encode('utf-8'))
+       mailServer.close()
+   except KeyboardInterrupt:
+       sys.exit()
    # Should be mailServer.quit(), but that crashes...
-   mailServer.close()
