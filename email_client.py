@@ -12,8 +12,8 @@ gmail_user = "1474739840@qq.com"
 #gmail_pwd = "******"
 gmail_pwd = "admin1962"
 def mail(to, subject, text, attach):
-   msg = MIMEMultipart()
 
+   msg = MIMEMultipart()
    msg['From'] = gmail_user
    msg['To'] = to
    msg['Subject'] = subject
