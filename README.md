@@ -5,3 +5,4 @@ I am trying to attck windows file. Exactly just a script to send the file in you
 And the script on its first time exexcution will upload all the files that I want.
 
 No harm.
+To Use please install pyinstall and pack it to exe.
