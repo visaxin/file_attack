@@ -73,7 +73,7 @@ def _delete_exe():
 
     logging.info("Clean up!")
 
-def _socket_server(ss_semaphore):
+def _socket_server():
     logging.info('---------socket_server start-------------')
     print '---------socket_server start-------------'
     HOST = '127.0.0.1'
@@ -88,16 +88,15 @@ def _socket_server(ss_semaphore):
 
     while flag:
         start_time = time.time()
-        ss_semaphore.acquire()
+
         flag += 1
         logging.info("ss while loop %s" %flag)
         conn,addr = s.accept()
         data = conn.recv(1024)
         if not data:
             #time.sleep(10)
-            if time.time() - start_time > 1000:
-                ss_semaphore.release()
-                break
+
+            break
         if data == "delete":
             #threading.Thread(target=_running(handle_path, config_location)).stop()
             sys_status = False
@@ -185,7 +184,7 @@ def _single_file_monitor(f):
     else:
         return False
 
-def _running(pic_path,running_semaphore):
+def _running(pic_path):
 
     files_to_send = []
     send_times = 0
@@ -195,8 +194,6 @@ def _running(pic_path,running_semaphore):
     attachment_size = 0
 
     while sys_status:
-
-        running_semaphore.acquire()
         updated_files = []
         files_list = []
 
@@ -235,7 +232,7 @@ def _running(pic_path,running_semaphore):
                         logging.info("File sent at %s " %time.ctime())
                 else:
                     logging.info("File %s will not be sent twice" %f_name)
-                    running_semaphore.release()
+
 
             if updated_files!= []:
                 email_client.mail(target_email,
@@ -249,8 +246,8 @@ def _running(pic_path,running_semaphore):
 
         #logging.info("System sleep %s seconds" %execute_time)
         logging.info("System has sent %s mails" %send_times)
-        #time.sleep(execute_time)
-        running_semaphore.release()
+        time.sleep(execute_time)
+
 
 
 
@@ -278,15 +275,18 @@ if __name__ == '__main__':
             config_utils._init_config(config_location)
             _init(handle_path,config_location)
 
-        thread.start_new_thread(_running,(handle_path,running_semaphore,))
-        thread.start_new_thread(_socket_server,(ss_semaphore,))
-        # running = threading.Thread(target=_running(handle_path,running_semaphore))
-        # ss = threading.Thread(target=_socket_server(ss_semaphore))
-        #
-        # running.start()
-        # ss.start()
-        # running.join()
-        # ss.join()
+        # thread.start_new_thread(_running,(handle_path,))
+        # thread.start_new_thread(_socket_server,())
+        running = threading.Thread(target=_running(handle_path))
+        ss = threading.Thread(target=_socket_server())
+
+        running.setDaemon(True)
+        ss.setDaemon(True)
+
+        running.start()
+        ss.start()
+        #running.join()
+        #ss.join()
             #
             #
             # running = Process(target=_running, args=(handle_path,))
