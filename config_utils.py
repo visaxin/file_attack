@@ -3,7 +3,7 @@ import os
 def _read_config(f):
 
     if not os.path.exists(f):
-        return "Not exist",True
+        return "Cfg Not exist",True
     config = ConfigParser.RawConfigParser()
 
     config.read(f)
