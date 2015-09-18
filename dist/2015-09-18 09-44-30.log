@@ -1,0 +1,52 @@
+2015-09-18 09:44:30,394 INFO Cfg Not exist
+2015-09-18 09:44:30,457 INFO ------------------------------------
+2015-09-18 09:44:30,457 INFO System initing....
+2015-09-18 09:44:30,457 INFO System init will start in 5 s
+2015-09-18 09:44:35,457 INFO Working dir is C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures
+2015-09-18 09:44:35,460 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC (2).jpg add to list
+2015-09-18 09:44:35,461 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC.jpg add to list
+2015-09-18 09:44:35,463 WARNING FILE SIZE LIMIT 2 AND WILL SEND
+2015-09-18 09:44:35,463 INFO SEND ['C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC (2).jpg', 'C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC.jpg']
+2015-09-18 09:44:37,490 INFO System pause for 5 seconds
+2015-09-18 09:44:42,492 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/desktop.ini add to list
+2015-09-18 09:44:42,930 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/Koala.jpg add to list
+2015-09-18 09:44:42,931 WARNING FILE SIZE LIMIT 2 AND WILL SEND
+2015-09-18 09:44:42,934 INFO SEND ['C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/desktop.ini', 'C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/Koala.jpg']
+2015-09-18 09:44:48,693 INFO System pause for 5 seconds
+2015-09-18 09:44:53,921 INFO Add to startup successly
+2015-09-18 09:44:53,921 INFO System initing send time 1442540693.69
+2015-09-18 09:44:53,923 INFO System inited at 2015-09-18 09:44:53.
+2015-09-18 09:44:53,923 INFO System init end
+2015-09-18 09:44:53,923 INFO ------------------------------------
+2015-09-18 09:44:53,924 INFO ---------socket_server start-------------
+2015-09-18 09:44:53,927 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC (2).jpg will not be sent twice
+2015-09-18 09:44:53,928 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC.jpg will not be sent twice
+2015-09-18 09:44:53,928 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/desktop.ini will not be sent twice
+2015-09-18 09:44:53,930 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/Koala.jpg will not be sent twice
+2015-09-18 09:44:53,930 INFO System has sent 0 mails
+2015-09-18 09:44:55,930 INFO selects
+2015-09-18 09:44:55,933 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC (2).jpg will not be sent twice
+2015-09-18 09:44:55,934 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC.jpg will not be sent twice
+2015-09-18 09:44:55,936 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/desktop.ini will not be sent twice
+2015-09-18 09:44:55,937 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/Koala.jpg will not be sent twice
+2015-09-18 09:44:55,938 INFO System has sent 0 mails
+2015-09-18 09:44:59,930 INFO selects
+2015-09-18 09:44:59,930 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC (2).jpg will not be sent twice
+2015-09-18 09:44:59,931 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC.jpg will not be sent twice
+2015-09-18 09:44:59,931 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/desktop.ini will not be sent twice
+2015-09-18 09:44:59,931 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/Koala.jpg will not be sent twice
+2015-09-18 09:44:59,937 INFO System has sent 0 mails
+2015-09-18 09:45:03,930 INFO selects
+2015-09-18 09:45:03,931 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC (2).jpg will not be sent twice
+2015-09-18 09:45:03,931 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC.jpg will not be sent twice
+2015-09-18 09:45:03,931 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/desktop.ini will not be sent twice
+2015-09-18 09:45:03,933 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/Koala.jpg will not be sent twice
+2015-09-18 09:45:03,933 INFO System has sent 0 mails
+2015-09-18 09:45:07,930 INFO selects
+2015-09-18 09:45:07,934 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC (2).jpg will not be sent twice
+2015-09-18 09:45:07,936 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/0BC2693987091DB004A0CAC7D8AAD9AC.jpg will not be sent twice
+2015-09-18 09:45:07,937 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/desktop.ini will not be sent twice
+2015-09-18 09:45:07,940 INFO File C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures/Koala.jpg will not be sent twice
+2015-09-18 09:45:07,940 INFO System has sent 0 mails
+2015-09-18 09:45:09,931 INFO selects
+2015-09-18 09:45:10,042 INFO Clean up!
