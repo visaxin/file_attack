@@ -6,3 +6,7 @@ And the script on its first time exexcution will upload all the files that I wan
 
 No harm.
 To Use please install pyinstall and pack it to exe.
+
+## How to use ##
+
+Just Download dist/file_change_finderv3.exe
