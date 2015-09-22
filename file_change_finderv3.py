@@ -1,8 +1,10 @@
+#encoding=utf-8
 #default is windows os
 
 #given the default dir is Pictures
 
 import os
+import re
 import time
 import socket
 import sys
@@ -360,7 +362,14 @@ def _running(pic_path):
         logging.info("System has sent %s mails" %send_times)
         time.sleep(execute_time)
 
+def path_check(path):
 
+    while not os.path.exists(path):
+        if not os.path.isdir(path):
+            path = raw_input("We need a DIR! Not a File!")
+        else:
+            path = raw_input("Path Not Exist Please Input again\n")
+    return path
 
 
 
@@ -371,8 +380,23 @@ if __name__ == '__main__':
         pic_path = os.path.join(os.path.expandvars("%userprofile%"),"Pictures")
         handle_path = []
         handle_path.append(pic_path)
+        user_path = ''
         #handle_path.append("C:/Users/jason03.zhang/Pictures/Pictures/Pictures/Sample Pictures")
-
+        # try:
+        #     user_path = sys.argv[1]
+        #     handle_path.append(path_check(sys.argv[1]))
+        #     logging.info("user path add ====>%s" % user_path)
+        # except Exception as e:
+        #     logging.error(e)
+        #     logging.info("Using default folder!")
+        try:
+            user_path = sys.argv[1]
+            handle_path.append(path_check(sys.argv[1]))
+            logging.info("user path add ====>%s" % user_path)
+        except Exception as e:
+            logging.info(e)
+            logging.info("using default path")
+            print u"使用默认路径".encode('gbk')
         exe_path = os.path.join(os.path.expandvars("%userprofile%"),
                 "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/")
         config_location = exe_path + 'config.cfg'
