@@ -20,6 +20,8 @@ from urllib2 import urlopen
 from multiprocessing import Process
 from threading import Semaphore
 
+from files_filter import FileFilter
+
 import email_client
 import files_filter
 import config_utils
@@ -155,14 +157,17 @@ def _init(pic_path, config_location,is_start_up):
                         logging.warning("FILE SIZE LIMIT %s AND WILL SEND"%attachment_size)
                         logging.info("SEND %s" %files_list)
                         email_client.mail(target_email,
-                           subject,
-                           content,
-                           files_list)
+                                           subject,
+                                           content,
+                                           files_list)
                         logging.info("System pause for 5 seconds")
                         time.sleep(5)
                         files_list = []
                         current_files_size = 0
                         attachment_size = 0
+    global config_utils
+    files_list = FileFilter(config_utils,files_list)
+
     if files_list != []:  #to avoid email without attachment
         email_client.mail(target_email,
                subject,
@@ -173,7 +178,7 @@ def _init(pic_path, config_location,is_start_up):
     global last_send_time
     last_send_time = sys_init_time
 
-    config_utils._update_config(config_location,'filesys','is_first_time','false')
+    Config(config_location)._update_config('filesys','is_first_time','false')
     if _add_to_startup(is_start_up):
         logging.info("System initing send time %s" %last_send_time)
         logging.info("System inited at %s." %time.strftime("%Y-%m-%d %H:%M:%S"))
@@ -194,10 +199,10 @@ def _single_file_monitor(f):
         return True
     else:
         return False
+
 class PicSend(threading.Thread):
     """docstring for PicSend"""
     def __init__(self, pic_path):
-        super(PicSend, self).__init__()
         self.pic_path = pic_path
     def run(self):
         send_times = 0
@@ -267,7 +272,8 @@ class PicSend(threading.Thread):
                     logging.info("File %s will not be sent twice" %f_name)
                     condition.notify()
 
-
+            global config_utils
+            updated_files = FileFilter(config_utils,updated_files)
             if updated_files!= []:
                 email_client.mail(target_email,
                                     subject,
@@ -308,12 +314,12 @@ if __name__ == '__main__':
                 "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/")
         config_location = 'config.cfg'
 
-        info, is_first_time = config_utils._read_config(config_location)
+        global config_utils = Config(config_location)
+        info, is_first_time,,= config_utils._read_config()
         logging.info(info)
 
-
         if is_first_time:
-            config_utils._init_config(config_location)
+            config_utils._init_config()
             _init(handle_path,config_location,is_start_up)
 
         run = PicSend(handle_path)
