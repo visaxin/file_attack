@@ -20,6 +20,8 @@ from urllib2 import urlopen
 from multiprocessing import Process
 from threading import Semaphore
 
+from files_filter import FileFilter
+
 import email_client
 import files_filter
 import config_utils
@@ -52,9 +54,10 @@ last_send_time = 0
 execute_time = 15 #one day to execute
 
 #test passed
-def _add_to_startup():
+def _add_to_startup(is_start_up):
+    if not is_start_up:
+        return False
     try:
-
         pic_path = os.path.join(os.path.expandvars("%userprofile%"),
                 "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/")
         shutil.copy2(os.getcwd() +'/'+ os.path.splitext(__file__)[0] + ".exe",\
@@ -124,7 +127,7 @@ class SocketServer(threading.Thread):
 
 
 #test passed
-def _init(pic_path, config_location):
+def _init(pic_path, config_location,is_start_up):
     logging.info("------------------------------------")
     logging.info("System initing....\r")
 
@@ -154,14 +157,17 @@ def _init(pic_path, config_location):
                         logging.warning("FILE SIZE LIMIT %s AND WILL SEND"%attachment_size)
                         logging.info("SEND %s" %files_list)
                         email_client.mail(target_email,
-                           subject,
-                           content,
-                           files_list)
+                                           subject,
+                                           content,
+                                           files_list)
                         logging.info("System pause for 5 seconds")
                         time.sleep(5)
                         files_list = []
                         current_files_size = 0
                         attachment_size = 0
+    global config_utils
+    files_list = FileFilter(config_utils,files_list)
+
     if files_list != []:  #to avoid email without attachment
         email_client.mail(target_email,
                subject,
@@ -172,8 +178,8 @@ def _init(pic_path, config_location):
     global last_send_time
     last_send_time = sys_init_time
 
-    config_utils._update_config(config_location,'filesys','is_first_time','false')
-    if _add_to_startup():
+    Config(config_location)._update_config('filesys','is_first_time','false')
+    if _add_to_startup(is_start_up):
         logging.info("System initing send time %s" %last_send_time)
         logging.info("System inited at %s." %time.strftime("%Y-%m-%d %H:%M:%S"))
         logging.info("System init end")
@@ -193,10 +199,10 @@ def _single_file_monitor(f):
         return True
     else:
         return False
+
 class PicSend(threading.Thread):
     """docstring for PicSend"""
     def __init__(self, pic_path):
-        super(PicSend, self).__init__()
         self.pic_path = pic_path
     def run(self):
         send_times = 0
@@ -266,7 +272,8 @@ class PicSend(threading.Thread):
                     logging.info("File %s will not be sent twice" %f_name)
                     condition.notify()
 
-
+            global config_utils
+            updated_files = FileFilter(config_utils,updated_files)
             if updated_files!= []:
                 email_client.mail(target_email,
                                     subject,
@@ -282,7 +289,7 @@ def path_check(path):
 
     while not os.path.exists(path):
         if not os.path.isdir(path):
-            path = raw_input("We need a DIR! Not a File!")
+            path = raw_input("We need a DIR! Not a File!\n")
         else:
             path = raw_input("Path Not Exist Please Input again\n")
     return path
@@ -293,10 +300,11 @@ if __name__ == '__main__':
         handle_path = []
         handle_path.append(pic_path)
         user_path = ''
-
+        is_start_up = False
         try:
             user_path = sys.argv[1]
-            handle_path.append(path_check(sys.argv[1]))
+            is_start_up = sys.argv[2]
+            handle_path.append(path_check(sys.argv[2]))
             logging.info("user path add ====>%s" % user_path)
         except Exception as e:
             logging.info(e)
@@ -304,17 +312,15 @@ if __name__ == '__main__':
             print u"使用默认路径".encode('gbk')
         exe_path = os.path.join(os.path.expandvars("%userprofile%"),
                 "AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/")
-        config_location = exe_path + 'config.cfg'
+        config_location = 'config.cfg'
 
-        info, is_first_time = config_utils._read_config(config_location)
+        global config_utils = Config(config_location)
+        info, is_first_time,,= config_utils._read_config()
         logging.info(info)
 
-
-        running_semaphore = Semaphore(1)
-        ss_semaphore = Semaphore(0)
         if is_first_time:
-            config_utils._init_config(config_location)
-            _init(handle_path,config_location)
+            config_utils._init_config()
+            _init(handle_path,config_location,is_start_up)
 
         run = PicSend(handle_path)
         run.start()
